@@ -20,13 +20,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.moviefinder.screens.FavoriteScreen
 import com.example.moviefinder.screens.HomeScreen
 import com.example.moviefinder.R
+import com.example.moviefinder.model.Result
 import com.example.moviefinder.screens.SupportScreen
 import com.example.moviefinder.vm.MovieViewModel
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun Navigation() {
+fun Navigation(movieListReal: List<Result>) {
     val movieViewModel: ViewModel?
     val viewModel: MovieViewModel = viewModel()
     val navController = rememberNavController()
@@ -91,10 +92,10 @@ fun Navigation() {
     ) {
         NavHost(navController = navController, startDestination = Screens.HomeScreen.route) {
             composable(route = "Home") {
-                HomeScreen(movieViewModel = MovieViewModel(), viewModel = MovieViewModel())
+                HomeScreen(movieListReal, navController)
             }
             composable("Favorite") {
-                FavoriteScreen()
+                FavoriteScreen(movieListReal,)
             }
             composable("Support") {
                 SupportScreen()

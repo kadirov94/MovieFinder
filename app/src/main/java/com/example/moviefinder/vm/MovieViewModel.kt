@@ -1,6 +1,9 @@
 package com.example.moviefinder.vm
 
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.moviefinder.model.Movie
@@ -12,8 +15,7 @@ import retrofit2.Response
 
 class MovieViewModel(): ViewModel() {
 
-    val movieList: MutableLiveData<MutableList<Result>> = MutableLiveData()
-    var listMovie = listOf<Result>()
+    var movieListResponse:List<Result> by mutableStateOf(listOf())
 
     @ExperimentalMaterialApi
     fun getMovie(){
@@ -26,8 +28,7 @@ class MovieViewModel(): ViewModel() {
             override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
                 val movie = response.body()?.results
                 if (movie!= null) {
-                    movieList.value = movie.toMutableList()
-                    listMovie = movie
+                    movieListResponse = movie.toMutableList()
                 }
             }
 

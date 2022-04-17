@@ -1,10 +1,13 @@
 package com.example.moviefinder.screens
 
+import android.telecom.Call
 import android.widget.Toast
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -16,32 +19,36 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.moviefinder.R
 import com.example.moviefinder.model.Result
+import com.example.moviefinder.navigation.Screens
+
 
 @ExperimentalMaterialApi
+@ExperimentalFoundationApi
 @Composable
-fun FavoriteScreen(item: List<Result>,){
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-        Box(modifier = Modifier.fillMaxSize()) {
-            val context = LocalContext.current
-            LazyColumn {
-                items(item.size, itemContent = {
-                    Item(content = item[it])
-                })
-            }
+fun DetailScreen(movieListReal: List<Result>) {
+    val movieList = movieListReal
+    Box(modifier = Modifier.fillMaxSize()) {
+        val context = LocalContext.current
+        //val scrollState = rememberScrollState()
+        LazyColumn {
+            items(movieList.size, itemContent = {
+                ItemList(content = movieList[it])
+                //Toast.makeText(context, movieList.toString(), Toast.LENGTH_SHORT).show()
+            })
         }
     }
 }
 
 @ExperimentalMaterialApi
 @Composable
-fun Item(content: Result) {
+fun ItemList(content: Result) {
     val context = LocalContext.current
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.TopStart) {
         Row {
