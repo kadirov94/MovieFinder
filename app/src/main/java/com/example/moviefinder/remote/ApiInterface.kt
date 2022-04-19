@@ -12,7 +12,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiInterface {
-    //https://api.themoviedb.org/3/movie/popular?api_key=f7d961068463360d52010e12bce4204b&language=ru
+
     @GET("3/movie/popular")
     fun getMovie(
         @Query("api_key") api_key: String,

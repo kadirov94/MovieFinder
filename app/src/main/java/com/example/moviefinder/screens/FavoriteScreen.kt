@@ -1,5 +1,6 @@
 package com.example.moviefinder.screens
 
+import android.text.Layout
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -22,26 +23,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.moviefinder.R
+import com.example.moviefinder.model.MovieModel
 import com.example.moviefinder.model.Result
 
 @ExperimentalMaterialApi
 @Composable
-fun FavoriteScreen(item: List<Result>,){
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-        Box(modifier = Modifier.fillMaxSize()) {
-            val context = LocalContext.current
-            LazyColumn {
-                items(item.size, itemContent = {
-                    Item(content = item[it])
-                })
-            }
-        }
+fun FavoriteScreen() {
+    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        val context = LocalContext.current
+        Text(
+            textAlign = TextAlign.Center,
+            text = "Вы еще нечего не добавили в Избранное",
+            fontSize = 20.sp
+        )
+        /*LazyColumn {
+            items(item.size, itemContent = {
+                Item(content = item[it])
+            })
+        }*/
     }
 }
-
+/*
 @ExperimentalMaterialApi
 @Composable
-fun Item(content: Result) {
+fun Item(content: MovieModel) {
     val context = LocalContext.current
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.TopStart) {
         Row {
@@ -56,22 +61,24 @@ fun Item(content: Result) {
                 contentScale = ContentScale.FillBounds,
             )
             Column {
+                content.title?.let {
+                    Text(
+                        text = it,
+                        Modifier
+                            .padding(start = 10.dp, top = 10.dp),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp,
+                    )
+                }
                 Text(
-                    text = content.title,
-                    Modifier
-                        .padding(start = 10.dp, top = 10.dp),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                )
-                Text(
-                    text = "Жанр: " + content.genre_ids.toString(),
+                    text = "Жанр: " + content.genre.toString(),
                     Modifier
                         .padding(start = 10.dp, top = 3.dp),
                     fontWeight = FontWeight.Bold,
                     maxLines = 2
                 )
                 Text(
-                    text = "Описание: " + if (content.overview.isEmpty()) "Описании нет, но вы держитесь" else content.overview,
+                    text = "Описание: " + if (content.overview!!.isEmpty()) "Описании нет, но вы держитесь" else content.overview,
                     Modifier
                         .padding(start = 7.dp, top = 3.dp, bottom = 30.dp),
                     fontSize = 12.sp,
@@ -96,4 +103,4 @@ fun Item(content: Result) {
             )
         }
     }
-}
+}*/

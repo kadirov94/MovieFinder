@@ -7,14 +7,12 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.moviefinder.model.MovieModel
 import com.example.moviefinder.navigation.Navigation
 import com.example.moviefinder.ui.theme.MovieFinderTheme
 import com.example.moviefinder.vm.MovieViewModel
+import com.example.moviefinder.vm.RoomViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -24,11 +22,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MovieFinderTheme {
-                var mainViewModel: MovieViewModel = viewModel()
-                // A surface container using the 'background' color from the theme
+                val mainViewModel: MovieViewModel = viewModel()
+                val roomViewModel: RoomViewModel = viewModel()
+                mainViewModel.getMovie()
+                roomViewModel.insertMovieList(mainViewModel.movieListResponse)
                 Surface(color = MaterialTheme.colors.background) {
-                    Navigation(mainViewModel.movieListResponse)
-                    mainViewModel.getMovie()
+                    //Toast.makeText(this, roomViewModel.mMovieList.value.toString(), Toast.LENGTH_SHORT).show()
+                    Navigation(roomViewModel.movieList)
                 }
             }
         }

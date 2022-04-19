@@ -1,5 +1,6 @@
 package com.example.moviefinder.screens
 
+import android.content.ClipData
 import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -21,19 +22,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import androidx.compose.runtime.*
+import androidx.navigation.NavHostController
 import com.example.moviefinder.R
-import com.example.moviefinder.model.Result
+import com.example.moviefinder.model.MovieModel
 import com.example.moviefinder.navigation.Screens
+import com.example.moviefinder.vm.RoomViewModel
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun HomeScreen(movieList: List<Result>, navController: NavController) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        val context = LocalContext.current
-        LazyColumn {
+fun HomeScreen(movieList: List<MovieModel>, navController: NavHostController) {
+    Box(Modifier.fillMaxSize()) {
+        LazyColumn{
             items(movieList.size, itemContent = {
                 ItemList(content = movieList[it], navController = navController)
             })
@@ -44,7 +48,7 @@ fun HomeScreen(movieList: List<Result>, navController: NavController) {
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun ItemList(content: Result, navController: NavController) {
+fun ItemList(content: MovieModel, navController: NavController, roomViewModel: RoomViewModel = viewModel()) {
     val context = LocalContext.current
     Card(
         modifier = Modifier
@@ -54,6 +58,7 @@ fun ItemList(content: Result, navController: NavController) {
         elevation = 8.dp,
         shape = RoundedCornerShape(20.dp),
         onClick = {
+            navController.navigate(route = Screens.FavoriteScreen.route)
             Toast.makeText(context, content.id.toString(), Toast.LENGTH_SHORT).show()
         }
     ) {
@@ -70,22 +75,17 @@ fun ItemList(content: Result, navController: NavController) {
                     contentScale = ContentScale.FillBounds,
                 )
                 Column {
+                    content.title?.let {
+                        Text(
+                            text = it,
+                            Modifier
+                                .padding(start = 10.dp, top = 10.dp),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                        )
+                    }
                     Text(
-                        text = content.title,
-                        Modifier
-                            .padding(start = 10.dp, top = 10.dp),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                    )
-                    Text(
-                        text = "Жанр: " + content.genre_ids.toString(),
-                        Modifier
-                            .padding(start = 10.dp, top = 3.dp),
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 2
-                    )
-                    Text(
-                        text = "Описание: " + if (content.overview.isEmpty()) "Описании нет, но вы держитесь" else content.overview,
+                        text = "Описание: " + if (content.overview!!.isEmpty()) "Описании нет, но вы держитесь" else content.overview,
                         Modifier
                             .padding(start = 7.dp, top = 3.dp, bottom = 30.dp),
                         fontSize = 12.sp,

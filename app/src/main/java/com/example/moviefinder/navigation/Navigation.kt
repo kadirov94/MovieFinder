@@ -2,11 +2,9 @@ package com.example.moviefinder.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -20,14 +18,14 @@ import androidx.navigation.compose.rememberNavController
 import com.example.moviefinder.screens.FavoriteScreen
 import com.example.moviefinder.screens.HomeScreen
 import com.example.moviefinder.R
-import com.example.moviefinder.model.Result
+import com.example.moviefinder.model.MovieModel
 import com.example.moviefinder.screens.SupportScreen
 import com.example.moviefinder.vm.MovieViewModel
 
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi
 @Composable
-fun Navigation(movieListReal: List<Result>) {
+fun Navigation(movieList: List<MovieModel>) {
     val movieViewModel: ViewModel?
     val viewModel: MovieViewModel = viewModel()
     val navController = rememberNavController()
@@ -92,10 +90,10 @@ fun Navigation(movieListReal: List<Result>) {
     ) {
         NavHost(navController = navController, startDestination = Screens.HomeScreen.route) {
             composable(route = "Home") {
-                HomeScreen(movieListReal, navController)
+                HomeScreen(movieList, navController)
             }
             composable("Favorite") {
-                FavoriteScreen(movieListReal,)
+                FavoriteScreen()
             }
             composable("Support") {
                 SupportScreen()

@@ -33,7 +33,6 @@ class MovieViewModel(): ViewModel() {
             }
 
             override fun onFailure(call: Call<Movie>, t: Throwable) {
-                TODO("Not yet implemented")
             }
         })
     }
