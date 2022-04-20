@@ -19,6 +19,7 @@ import com.example.moviefinder.screens.FavoriteScreen
 import com.example.moviefinder.screens.HomeScreen
 import com.example.moviefinder.R
 import com.example.moviefinder.model.MovieModel
+import com.example.moviefinder.screens.DetailScreen
 import com.example.moviefinder.screens.SupportScreen
 import com.example.moviefinder.vm.MovieViewModel
 
@@ -97,6 +98,11 @@ fun Navigation(movieList: List<MovieModel>) {
             }
             composable("Support") {
                 SupportScreen()
+            }
+            composable(
+                route = Screens.DetailScreen.route
+            ) {
+                DetailScreen()
             }
         }
     }

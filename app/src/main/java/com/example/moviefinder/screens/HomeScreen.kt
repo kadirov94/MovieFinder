@@ -50,6 +50,7 @@ fun HomeScreen(movieList: List<MovieModel>, navController: NavHostController) {
 @Composable
 fun ItemList(content: MovieModel, navController: NavController, roomViewModel: RoomViewModel = viewModel()) {
     val context = LocalContext.current
+    val item = remember{ mutableStateOf(content) }
     Card(
         modifier = Modifier
             .padding(6.dp)
@@ -58,7 +59,8 @@ fun ItemList(content: MovieModel, navController: NavController, roomViewModel: R
         elevation = 8.dp,
         shape = RoundedCornerShape(20.dp),
         onClick = {
-            navController.navigate(route = Screens.FavoriteScreen.route)
+            //item.value
+            //navController.navigate(route = Screens.DetailScreen.route + content)
             Toast.makeText(context, content.id.toString(), Toast.LENGTH_SHORT).show()
         }
     ) {
@@ -96,7 +98,10 @@ fun ItemList(content: MovieModel, navController: NavController, roomViewModel: R
             }
             IconButton(
                 onClick = {
-                    Toast.makeText(context, "Favorite", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "Favorite", Toast.LENGTH_SHORT).show()
+                    if(content.isFavorite == 0){
+                        roomViewModel.updateToFavorite(content.copy(isFavorite = 1))
+                    }
                 }, modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(bottom = 10.dp, end = 20.dp)
